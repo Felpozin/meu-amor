@@ -104,11 +104,17 @@ function addPlaceToList(p){
 
   if (p.id === selectedId) li.classList.add("active");
 
+  const dateText = p.date ? formatDate(p.date) : "";
+
   li.innerHTML = `
-    <p class="placeTitle">${p.title}</p>
+    <div class="placeTop">
+      <p class="placeTitle">${p.title}</p>
+    </div>
     <div class="placeMeta">
-      ${p.tag ? `<span class="badge">${p.tag}</span>` : ""}
-      ${p.date ? `<span>${formatDate(p.date)}</span>` : ""}
+      <div class="placeTags">
+        ${p.tag ? `<span class="badge">${p.tag}</span>` : ``}
+      </div>
+      <span class="placeDateRight">${dateText}</span>
     </div>
   `;
 
