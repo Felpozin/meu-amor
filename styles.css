@@ -55,8 +55,9 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
   list-style:none;
   padding:0;
   margin:0;
-  overflow-y:auto;
   flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
   border-top:1px solid var(--stroke);
   padding-top:12px;
   display:flex;
@@ -98,7 +99,7 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
 }
 
 .placeMeta{
-  margin:6px 0 0;
+  margin:8px 0 0;
   display:flex;
   align-items:center;
   gap:10px;
@@ -109,7 +110,6 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
   display:flex;
   gap:8px;
   flex-wrap:wrap;
-  flex:1;
   min-width:0;
 }
 
@@ -143,8 +143,6 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
   line-height: 1.35;
 }
 
-.footer{ color:var(--muted); }
-
 .spotifyWrap{
   margin-top:auto;
   padding-top:12px;
@@ -156,6 +154,8 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
   color:var(--muted);
   text-align:center;
 }
+
+.footer{ color:var(--muted); }
 
 .mapWrap{ height:100%; position:relative; }
 #map{ height:100%; width:100%; }
@@ -184,16 +184,14 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
 
 .popupTop{
   position:relative;
-  padding:0 86px;
+  padding-right:86px;
   min-height:18px;
   margin-bottom:8px;
 }
-
 .popupTitle{
   margin:0;
   text-align:center;
 }
-
 .popupDate{
   position:absolute;
   top:0;
@@ -257,10 +255,10 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
   #btnFit{ display:none; }
 
   .places{
-    flex: 1;
+    flex:1;
     display:flex;
     flex-direction:column;
-    gap:10px;
+    flex-wrap:nowrap;
     overflow-y:auto;
     overflow-x:hidden;
     padding-top:12px;
@@ -277,14 +275,6 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
   .placeTitle{ font-size:14px; }
   .badge{ font-size:11px; padding:2px 8px; }
   .placeDateRight{ font-size:12px; }
-
-  .spotifyWrap{
-    margin-top:auto;
-    padding-top:12px;
-    border-top:1px solid var(--stroke);
-  }
-
-  .footer{ font-size:11px; }
 
   .mapWrap{
     position:fixed;
