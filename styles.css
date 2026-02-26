@@ -8,7 +8,7 @@
 }
 
 *{ box-sizing:border-box; }
-html,body{ height:100%; margin:0; font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--text); }
+html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; background:var(--bg); color:var(--text); }
 
 .layout{
   height:100%;
@@ -30,10 +30,7 @@ html,body{ height:100%; margin:0; font-family:system-ui, -apple-system, Segoe UI
 .header h1{ margin:0; font-size:22px; }
 .header p{ margin:6px 0 0; color:var(--muted); font-size:14px; }
 
-.tools{
-  display:flex;
-  gap:8px;
-}
+.tools{ display:flex; gap:8px; }
 .tools input{
   flex:1;
   padding:10px 12px;
@@ -68,12 +65,12 @@ html,body{ height:100%; margin:0; font-family:system-ui, -apple-system, Segoe UI
   scrollbar-color: rgba(255,209,102,.35) transparent;
 }
 
-.places::-webkit-scrollbar{ width: 4px; }
-.places::-webkit-scrollbar-track{ background: transparent; }
+.places::-webkit-scrollbar{ width:4px; }
+.places::-webkit-scrollbar-track{ background:transparent; }
 .places::-webkit-scrollbar-thumb{
   background: rgba(255,209,102,.35);
-  border-radius: 999px;
-  transition: background .2s ease;
+  border-radius:999px;
+  transition:background .2s ease;
 }
 .places::-webkit-scrollbar-thumb:hover{ background: rgba(255,209,102,.7); }
 
@@ -83,15 +80,11 @@ html,body{ height:100%; margin:0; font-family:system-ui, -apple-system, Segoe UI
   padding:12px;
   background:rgba(0,0,0,.18);
   cursor:pointer;
-  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+  transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease;
 }
 .placeItem:hover{ border-color:rgba(255,255,255,.22); }
 
-.placeTitle{
-  margin:0;
-  font-weight:700;
-  font-size:15px;
-}
+.placeTitle{ margin:0; font-weight:700; font-size:15px; }
 .placeMeta{
   margin:6px 0 0;
   color:var(--muted);
@@ -118,15 +111,15 @@ html,body{ height:100%; margin:0; font-family:system-ui, -apple-system, Segoe UI
 .footer{ color:var(--muted); }
 
 .spotifyWrap{
-  margin-top: auto;
-  padding-top: 14px;
-  border-top: 1px solid var(--stroke);
+  margin-top:auto;
+  padding-top:14px;
+  border-top:1px solid var(--stroke);
 }
 .spotifyLabel{
-  margin: 0 0 8px;
-  font-size: 13px;
-  color: var(--muted);
-  text-align: center;
+  margin:0 0 8px;
+  font-size:13px;
+  color:var(--muted);
+  text-align:center;
 }
 
 .mapWrap{ height:100%; position:relative; }
@@ -135,9 +128,9 @@ html,body{ height:100%; margin:0; font-family:system-ui, -apple-system, Segoe UI
 .backBtn{
   position:absolute;
   top:12px;
-  right:12px;  
-  left:auto;  
-  z-index: 1000;
+  right:12px;
+  left:auto;
+  z-index:2000;
   display:none;
   align-items:center;
   gap:8px;
@@ -156,38 +149,34 @@ html,body{ height:100%; margin:0; font-family:system-ui, -apple-system, Segoe UI
 .popup h3{ margin:0 0 6px; }
 .popup p{ margin:6px 0 10px; color:#2a2a2a; }
 .popup img{
-  max-width: 100%;
-  max-height: 160px;
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  border-radius: 12px;
-  display: block;
-  margin: 0 auto;
+  max-width:100%;
+  max-height:160px;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  border-radius:12px;
+  display:block;
+  margin:0 auto;
 }
 
 .popupMedia{
-  width: 100%;
-  max-height: 220px;
-  border-radius: 12px;
-  display: block;
-  margin-top: 10px;
-  background: #000;
+  width:100%;
+  max-height:220px;
+  border-radius:12px;
+  display:block;
+  margin-top:10px;
+  background:#000;
 }
-.ytWrap{
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  margin-top: 10px;
-}
+.ytWrap{ width:100%; aspect-ratio:16/9; margin-top:10px; }
 .ytWrap iframe{
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  display: block;
+  width:100%;
+  height:100%;
+  border-radius:12px;
+  display:block;
 }
 
 @media (max-width: 768px){
-  html, body { height: 100%; overflow: hidden; }
+  html, body { height:100%; overflow:hidden; }
 
   .layout{
     grid-template-columns: 1fr;
@@ -195,122 +184,126 @@ html,body{ height:100%; margin:0; font-family:system-ui, -apple-system, Segoe UI
   }
 
   .sidebar{
-    border-right: none;
-    height: 100dvh;
-    padding: 16px;
-    gap: 12px;
+    border-right:none;
+    height:100dvh;
+    padding:16px;
+    gap:12px;
     background: rgba(11,15,20,.98);
   }
 
-  .header h1{ font-size: 18px; }
-  .header p{ font-size: 13px; }
+  .header h1{ font-size:18px; }
+  .header p{ font-size:13px; }
 
   .tools input, .tools button{
-    font-size: 14px;
-    padding: 9px 11px;
+    font-size:14px;
+    padding:9px 11px;
   }
 
-  #btnFit{ display: none; }
+  #btnFit{ display:none; }
 
   .places{
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-    flex-wrap: nowrap;
-    padding-top: 10px;
-    padding-bottom: 4px;
-    gap: 10px;
-    scrollbar-width: none;
+    flex-direction:row;
+    overflow-x:auto;
+    overflow-y:hidden;
+    flex-wrap:nowrap;
+    padding-top:10px;
+    padding-bottom:4px;
+    gap:10px;
+    scrollbar-width:none;
   }
-  .places::-webkit-scrollbar{ display: none; }
+  .places::-webkit-scrollbar{ display:none; }
 
   .placeItem{
-    min-width: 210px;
-    flex-shrink: 0;
+    min-width:210px;
+    flex-shrink:0;
   }
 
-  .footer{ font-size: 11px; }
+  .spotifyWrap{ display:none; }
+  .footer{ font-size:11px; }
 
   .mapWrap{
-    position: fixed;
-    inset: 0;
-    height: 100%;
-    width: 100%;
-    z-index: 50;
-    display: none;
+    position:fixed;
+    inset:0;
+    height:100%;
+    width:100%;
+    z-index:50;
+    display:none;
   }
-  #map{ height: 100%; }
 
-  body.mobileMap .sidebar{ display: none; }
-  body.mobileMap .mapWrap{ display: block; }
-  body.mobileMap .backBtn{ display: flex; }
+  body.mobileMap .sidebar{ display:none; }
+  body.mobileMap .mapWrap{ display:block; }
+  body.mobileMap .backBtn{ display:flex; }
+
+  .backBtn{
+    position:fixed;
+    top:12px;
+    right:12px;
+    left:auto;
+  }
 
   .landingTitle{ font-size: clamp(22px, 6vw, 32px); }
   .landingText{ font-size: clamp(14px, 4vw, 17px); }
 }
 
-/* Landing */
 .landing{
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-
-  display: grid;
-  place-items: center;
-  padding: 28px;
-
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:grid;
+  place-items:center;
+  padding:28px;
   background:
-    radial-gradient(900px 500px at 20% 20%, rgba(15, 231, 51, 0.2)),
-    radial-gradient(900px 500px at 80% 70%, rgba(120, 180, 255, .14)),
+    radial-gradient(900px 500px at 20% 20%, rgba(15,231,51,.2)),
+    radial-gradient(900px 500px at 80% 70%, rgba(120,180,255,.14)),
     rgba(0,0,0,.70);
-
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-
   transition: opacity .65s ease, visibility .65s ease;
-  opacity: 1;
-  visibility: visible;
+  opacity:1;
+  visibility:visible;
 }
 
 .landing.isHidden{
-  opacity: 0;
-  visibility: hidden;
+  opacity:0;
+  visibility:hidden;
 }
 
 .landingContent{
-  text-align: center;
-  max-width: 780px;
-  width: 100%;
+  text-align:center;
+  max-width:780px;
+  width:100%;
   transform: translateY(0);
   transition: transform .65s ease, opacity .65s ease;
 }
 
-.landing.isHidden .landingContent{ transform: translateY(10px); }
+.landing.isHidden .landingContent{
+  transform: translateY(10px);
+}
 
 .landingTitle{
-  margin: 0;
+  margin:0;
   font-size: clamp(24px, 3vw, 40px);
-  letter-spacing: .2px;
+  letter-spacing:.2px;
 }
 
 .landingText{
-  margin: 14px 0 0;
+  margin:14px 0 0;
   color: rgba(255,255,255,.82);
   font-size: clamp(15px, 1.4vw, 18px);
-  line-height: 1.55;
+  line-height:1.55;
 }
 
 .typing::after{
-  content: "";
-  display: inline-block;
-  width: 0;
-  height: 1em;
-  margin-left: 2px;
-  border-right: 2px solid rgba(255,255,255,.85);
+  content:"";
+  display:inline-block;
+  width:0;
+  height:1em;
+  margin-left:2px;
+  border-right:2px solid rgba(255,255,255,.85);
   transform: translateY(2px);
   animation: blink 1s step-end infinite;
 }
 
 @keyframes blink{
-  50% { opacity: 0; }
+  50% { opacity:0; }
 }
