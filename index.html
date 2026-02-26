@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Amor</title>
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+</head>
+<body>
+    <div id="landing" class="landing">
+    <div class="landingContent" aria-label="Mensagem de boas-vindas">
+        <h2 id="landingTitle" class="landingTitle" data-text="Oii meu amor :)"></h2>
+        <p id="landingText" class="landingText"
+        data-text="Sei que você ama gravar memórias, então guardei algumas das nossas aqui, te amo Solzinho!!"></p>
+    </div>
+    </div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="header">
+        <h1>Mapa do meu amor</h1>
+        <p>Te amo <3.</p>
+      </div>
+
+      <div class="tools">
+        <input id="search" type="text" placeholder="Buscar lugar..." />
+        <button id="btnFit">Ver tudo</button>
+      </div>
+
+      <ul id="placesList" class="places"></ul>
+
+      <div class="spotifyWrap">
+        <p class="spotifyLabel">Música que me lembra você &lt;3</p>
+        <iframe
+          src="https://open.spotify.com/embed/track/79hKbeMV37B9dCP1YrGgw8?utm_source=generator&theme=0"
+          width="100%"
+          height="80"
+          frameborder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+          style="border-radius:12px;"
+        ></iframe>
+      </div>
+
+      <footer class="footer">
+        <small>
+          <span id="count"></span> lugares
+        </small>
+      </footer>
+    </aside>
+
+    <main class="mapWrap">
+      <div id="map"></div>
+    </main>
+  </div>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+
+  <script src="places.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
