@@ -4,6 +4,10 @@ const listEl = $("#placesList");
 const searchEl = $("#search");
 const countEl = $("#count");
 const btnFit = $("#btnFit");
+const btnBack = $("#btnBack");
+
+const mqMobile = window.matchMedia("(max-width: 768px)");
+const isMobile = () => mqMobile.matches;
 
 const DEFAULT_CENTER = [PLACES[0]?.lat ?? -1.4558, PLACES[0]?.lng ?? -48.4902];
 const DEFAULT_ZOOM = 13;
@@ -11,6 +15,25 @@ const DEFAULT_ZOOM = 13;
 let selectedId = "";
 
 const map = L.map("map", { zoomControl: true }).setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+
+function setMobileView(view){
+  // view: "list" | "map" (só afeta mobile)
+  if (!isMobile()){
+    document.body.classList.remove("mobileList", "mobileMap");
+    if (btnBack) btnBack.hidden = true;
+    return;
+  }
+
+  document.body.classList.toggle("mobileList", view === "list");
+  document.body.classList.toggle("mobileMap", view === "map");
+
+  if (btnBack) btnBack.hidden = view !== "map";
+
+  if (view === "map"){
+    // Leaflet precisa recalcular tamanho quando o mapa aparece
+    setTimeout(() => map.invalidateSize(), 140);
+  }
+}
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
@@ -42,7 +65,6 @@ function toYouTubeEmbed(url) {
 function popupHTML(p){
   const date = p.date ? `<span class="badge">${formatDate(p.date)}</span>` : "";
   const img = p.photo ? `<img src="${p.photo}" alt="${p.title}">` : "";
-  const link = p.link ? `<a href="${p.link}" target="_blank" rel="noreferrer">Abrir link</a>` : "";
 
   const mp4 = p.videoMp4
     ? `<video class="popupMedia" controls preload="metadata">
@@ -73,7 +95,7 @@ function popupHTML(p){
       ${yt}
     </div>
   `;
-} 
+}
 
 function addPlaceToList(p){
   const li = document.createElement("li");
@@ -90,7 +112,15 @@ function addPlaceToList(p){
     </div>
   `;
 
-  li.addEventListener("click", () => selectPlace(p.id, true));
+  li.addEventListener("click", () => {
+    if (isMobile()){
+      setMobileView("map");
+      setTimeout(() => selectPlace(p.id, true), 170);
+      return;
+    }
+    selectPlace(p.id, true);
+  });
+
   listEl.appendChild(li);
 }
 
@@ -163,31 +193,63 @@ function applyFilter(){
 }
 
 function boot(){
-  PLACES.forEach(p => {
-    addMarker(p);
-  });
-
+  PLACES.forEach(addMarker);
   renderList(PLACES);
 
-  btnFit.addEventListener("click", () => {
-    fitAll();
-    const url = new URL(window.location.href);
-    url.searchParams.delete("p");
-    window.history.replaceState({}, "", url.toString());
-    highlightListItem("");
-  });
+  if (btnFit){
+    btnFit.addEventListener("click", () => {
+      fitAll();
+      const url = new URL(window.location.href);
+      url.searchParams.delete("p");
+      window.history.replaceState({}, "", url.toString());
+      highlightListItem("");
+    });
+  }
 
   searchEl.addEventListener("input", applyFilter);
 
+  if (btnBack){
+    btnBack.addEventListener("click", () => {
+      map.closePopup();
+      setMobileView("list");
+
+      const u = new URL(window.location.href);
+      u.searchParams.delete("p");
+      window.history.replaceState({}, "", u.toString());
+    });
+  }
+
   const url = new URL(window.location.href);
   const pid = url.searchParams.get("p");
+
   if (pid && markersById.has(pid)) {
-    focusPlace(pid, true);
+    if (isMobile()) setMobileView("map");
+    selectPlace(pid, true);
   } else {
+    if (isMobile()) setMobileView("list");
     fitAll();
   }
+
+  mqMobile.addEventListener("change", () => {
+    const u = new URL(window.location.href);
+    const pid2 = u.searchParams.get("p");
+
+    if (!isMobile()){
+      setMobileView("map");
+      setTimeout(() => map.invalidateSize(), 80);
+      return;
+    }
+
+    if (pid2 && markersById.has(pid2)){
+      setMobileView("map");
+      setTimeout(() => selectPlace(pid2, true), 170);
+    } else {
+      setMobileView("list");
+    }
+  });
 }
 
+/* Landing (mantive como estava) */
 const landingEl = document.getElementById("landing");
 const landingTitleEl = document.getElementById("landingTitle");
 const landingTextEl = document.getElementById("landingText");
@@ -210,13 +272,11 @@ function closeLanding() {
 }
 
 function getPauseMs(char, nextChar) {
-  // pausa extra (além da velocidade base) depois de certos caracteres
   if (char === "," ) return 140;
   if (char === ";" ) return 170;
   if (char === ":" ) return 180;
 
-  // reticências "..." ou "…"
-  if (char === "." && nextChar === ".") return 110; // cada ponto da reticência dá uma paradinha
+  if (char === "." && nextChar === ".") return 110;
   if (char === "…") return 320;
 
   if (char === "." || char === "!" || char === "?") return 320;
@@ -276,12 +336,12 @@ function wait(ms) {
 
 if (landingEl) {
   (async () => {
-    await typeWriter(landingTitleEl, 900);  
+    await typeWriter(landingTitleEl, 900);
     await wait(120);
-    await typeWriter(landingTextEl, 3300);  
+    await typeWriter(landingTextEl, 3300);
   })();
 
-  closeTimeout = setTimeout(closeLanding, 8000); 
+  closeTimeout = setTimeout(closeLanding, 8000);
 }
 
 boot();
