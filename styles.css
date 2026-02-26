@@ -78,7 +78,7 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
 .placeItem{
   border:1px solid var(--stroke);
   border-radius:14px;
-  padding:10px 10px 9px;
+  padding:12px 12px 11px;
   background:rgba(0,0,0,.18);
   cursor:pointer;
   transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease;
@@ -243,8 +243,7 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
     padding:14px;
     gap:10px;
     background: rgba(11,15,20,.98);
-    overflow-y:auto;
-    -webkit-overflow-scrolling: touch;
+    overflow:hidden;
   }
 
   .header h1{ font-size:18px; }
@@ -258,34 +257,31 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
   #btnFit{ display:none; }
 
   .places{
-    flex: 0 0 auto;
-    flex-direction:row;
-    align-items:flex-start;
-    overflow-x:auto;
-    overflow-y:hidden;
-    flex-wrap:nowrap;
-    padding-top:10px;
-    padding-bottom:4px;
+    flex: 1;
+    display:flex;
+    flex-direction:column;
     gap:10px;
-    scrollbar-width:none;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding-top:12px;
+    padding-bottom:6px;
+    -webkit-overflow-scrolling: touch;
   }
-  .places::-webkit-scrollbar{ display:none; }
 
   .placeItem{
-    min-width:180px;
-    padding:9px 9px 8px;
-    border-radius:14px;
-    flex-shrink:0;
+    width:100%;
+    min-width:0;
     height:auto;
   }
 
-  .placeTitle{ font-size:13.5px; }
-  .badge{ font-size:10.5px; padding:2px 7px; }
-  .placeDateRight{ font-size:11.5px; }
+  .placeTitle{ font-size:14px; }
+  .badge{ font-size:11px; padding:2px 8px; }
+  .placeDateRight{ font-size:12px; }
 
   .spotifyWrap{
-    margin-top: 10px;
-    padding-top: 10px;
+    margin-top:auto;
+    padding-top:12px;
+    border-top:1px solid var(--stroke);
   }
 
   .footer{ font-size:11px; }
