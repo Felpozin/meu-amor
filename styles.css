@@ -135,7 +135,8 @@ html,body{ height:100%; margin:0; font-family:system-ui, -apple-system, Segoe UI
 .backBtn{
   position:absolute;
   top:12px;
-  left:12px;
+  right:12px;  
+  left:auto;  
   z-index: 1000;
   display:none;
   align-items:center;
@@ -244,7 +245,6 @@ html,body{ height:100%; margin:0; font-family:system-ui, -apple-system, Segoe UI
   body.mobileMap .mapWrap{ display: block; }
   body.mobileMap .backBtn{ display: flex; }
 
-  /* Landing em mobile */
   .landingTitle{ font-size: clamp(22px, 6vw, 32px); }
   .landingText{ font-size: clamp(14px, 4vw, 17px); }
 }
