@@ -23,7 +23,7 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
   padding:18px;
   display:flex;
   flex-direction:column;
-  gap:14px;
+  gap:12px;
   height:100%;
   overflow:hidden;
 }
@@ -77,8 +77,8 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
 
 .placeItem{
   border:1px solid var(--stroke);
-  border-radius:16px;
-  padding:12px;
+  border-radius:14px;
+  padding:10px 10px 9px;
   background:rgba(0,0,0,.18);
   cursor:pointer;
   transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease;
@@ -93,12 +93,12 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
 
 .placeTitle{
   margin:0;
-  font-size:15px;
+  font-size:14px;
   text-align:center;
 }
 
 .placeMeta{
-  margin:8px 0 0;
+  margin:6px 0 0;
   display:flex;
   align-items:center;
   gap:10px;
@@ -107,8 +107,9 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
 
 .placeTags{
   display:flex;
-  gap:10px;
+  gap:8px;
   flex-wrap:wrap;
+  flex:1;
   min-width:0;
 }
 
@@ -130,15 +131,23 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
 
 .placeItem.active{
   border-color: rgba(var(--accent-rgb),.95);
-  box-shadow: 0 0 0 3px rgba(var(--accent-rgb),.25);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb),.22);
   transform: translateY(-1px);
+}
+
+.hint{
+  margin: 2px 0 0;
+  text-align:center;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
 }
 
 .footer{ color:var(--muted); }
 
 .spotifyWrap{
   margin-top:auto;
-  padding-top:14px;
+  padding-top:12px;
   border-top:1px solid var(--stroke);
 }
 .spotifyLabel{
@@ -231,9 +240,11 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
   .sidebar{
     border-right:none;
     height:100dvh;
-    padding:16px;
-    gap:12px;
+    padding:14px;
+    gap:10px;
     background: rgba(11,15,20,.98);
+    overflow-y:auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .header h1{ font-size:18px; }
@@ -247,7 +258,9 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
   #btnFit{ display:none; }
 
   .places{
+    flex: 0 0 auto;
     flex-direction:row;
+    align-items:flex-start;
     overflow-x:auto;
     overflow-y:hidden;
     flex-wrap:nowrap;
@@ -259,11 +272,22 @@ html,body{ height:100%; margin:0; font-family:system-ui,-apple-system,Segoe UI,R
   .places::-webkit-scrollbar{ display:none; }
 
   .placeItem{
-    min-width:230px;
+    min-width:180px;
+    padding:9px 9px 8px;
+    border-radius:14px;
     flex-shrink:0;
+    height:auto;
   }
 
-  .spotifyWrap{ display:none; }
+  .placeTitle{ font-size:13.5px; }
+  .badge{ font-size:10.5px; padding:2px 7px; }
+  .placeDateRight{ font-size:11.5px; }
+
+  .spotifyWrap{
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+
   .footer{ font-size:11px; }
 
   .mapWrap{

@@ -17,7 +17,6 @@ let selectedId = "";
 const map = L.map("map", { zoomControl: true }).setView(DEFAULT_CENTER, DEFAULT_ZOOM);
 
 function setMobileView(view){
-  // view: "list" | "map" (só afeta mobile)
   if (!isMobile()){
     document.body.classList.remove("mobileList", "mobileMap");
     if (btnBack) btnBack.hidden = true;
@@ -30,14 +29,13 @@ function setMobileView(view){
   if (btnBack) btnBack.hidden = view !== "map";
 
   if (view === "map"){
-    // Leaflet precisa recalcular tamanho quando o mapa aparece
     setTimeout(() => map.invalidateSize(), 140);
   }
 }
 
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 19,
-  attribution: '&copy; OpenStreetMap'
+  attribution: "&copy; OpenStreetMap"
 }).addTo(map);
 
 const markersById = new Map();
@@ -48,6 +46,68 @@ function formatDate(iso) {
   const [y,m,d] = iso.split("-").map(Number);
   const dt = new Date(y, (m-1), d);
   return dt.toLocaleDateString("pt-BR");
+}
+
+function uniq(arr){
+  return [...new Set(arr.filter(Boolean))];
+}
+
+async function withLimit(items, limit, worker){
+  const queue = items.slice();
+  const runners = Array.from({ length: Math.max(1, limit) }, async () => {
+    while (queue.length){
+      const item = queue.shift();
+      try { await worker(item); } catch {}
+    }
+  });
+  await Promise.all(runners);
+}
+
+function preloadImage(url){
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.decoding = "async";
+    img.loading = "eager";
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = url;
+    if (img.decode) img.decode().then(() => resolve(true)).catch(() => resolve(false));
+  });
+}
+
+function warmVideo(url){
+  return new Promise((resolve) => {
+    const v = document.createElement("video");
+    v.preload = "metadata";
+    v.muted = true;
+    v.playsInline = true;
+    v.onloadedmetadata = () => resolve(true);
+    v.onerror = () => resolve(false);
+    v.src = url;
+    v.load();
+  });
+}
+
+function addPreloadLink(as, href, type){
+  const link = document.createElement("link");
+  link.rel = "preload";
+  link.as = as;
+  link.href = href;
+  if (type) link.type = type;
+  document.head.appendChild(link);
+}
+
+function startPreloadMedia(){
+  const imgs = uniq(PLACES.map(p => p.photo));
+  const vids = uniq(PLACES.map(p => p.videoMp4));
+
+  imgs.slice(0, 6).forEach(u => addPreloadLink("image", u));
+  vids.slice(0, 2).forEach(u => addPreloadLink("video", u, "video/mp4"));
+
+  const p1 = withLimit(imgs, 4, preloadImage);
+  const p2 = withLimit(vids, 2, warmVideo);
+
+  return Promise.allSettled([p1, p2]);
 }
 
 function toYouTubeEmbed(url) {
@@ -63,8 +123,9 @@ function toYouTubeEmbed(url) {
 }
 
 function popupHTML(p){
-  const date = p.date ? `<span class="badge">${formatDate(p.date)}</span>` : "";
+  const date = p.date ? `<span class="badge popupDate">${formatDate(p.date)}</span>` : "";
   const img = p.photo ? `<img src="${p.photo}" alt="${p.title}">` : "";
+  const link = p.link ? `<a href="${p.link}" target="_blank" rel="noreferrer">Abrir link</a>` : "";
 
   const mp4 = p.videoMp4
     ? `<video class="popupMedia" controls preload="metadata">
@@ -88,11 +149,15 @@ function popupHTML(p){
 
   return `
     <div class="popup">
-      <h3>${p.title} ${date}</h3>
+      <div class="popupTop">
+        <h3 class="popupTitle">${p.title}</h3>
+        ${date || ""}
+      </div>
       <p>${p.text ?? ""}</p>
       ${img}
       ${mp4}
       ${yt}
+      ${link}
     </div>
   `;
 }
@@ -184,7 +249,6 @@ function renderList(filtered){
   listEl.innerHTML = "";
   filtered.forEach(addPlaceToList);
   countEl.textContent = String(filtered.length);
-
   highlightListItem(selectedId);
 }
 
@@ -218,7 +282,6 @@ function boot(){
     btnBack.addEventListener("click", () => {
       map.closePopup();
       setMobileView("list");
-
       const u = new URL(window.location.href);
       u.searchParams.delete("p");
       window.history.replaceState({}, "", u.toString());
@@ -229,11 +292,18 @@ function boot(){
   const pid = url.searchParams.get("p");
 
   if (pid && markersById.has(pid)) {
-    if (isMobile()) setMobileView("map");
-    selectPlace(pid, true);
+    if (isMobile()){
+      setMobileView("map");
+      setTimeout(() => selectPlace(pid, true), 170);
+    } else {
+      selectPlace(pid, true);
+    }
   } else {
-    if (isMobile()) setMobileView("list");
-    fitAll();
+    if (isMobile()){
+      setMobileView("list");
+    } else {
+      fitAll();
+    }
   }
 
   mqMobile.addEventListener("change", () => {
@@ -255,7 +325,6 @@ function boot(){
   });
 }
 
-/* Landing (mantive como estava) */
 const landingEl = document.getElementById("landing");
 const landingTitleEl = document.getElementById("landingTitle");
 const landingTextEl = document.getElementById("landingText");
@@ -278,16 +347,13 @@ function closeLanding() {
 }
 
 function getPauseMs(char, nextChar) {
-  if (char === "," ) return 140;
-  if (char === ";" ) return 170;
-  if (char === ":" ) return 180;
-
+  if (char === ",") return 140;
+  if (char === ";") return 170;
+  if (char === ":") return 180;
   if (char === "." && nextChar === ".") return 110;
   if (char === "…") return 320;
-
   if (char === "." || char === "!" || char === "?") return 320;
   if (char === "\n") return 260;
-
   return 0;
 }
 
@@ -309,11 +375,7 @@ function typeWriter(el, durationMs) {
       pauseTotal += getPauseMs(full[i], full[i + 1]);
     }
 
-    const baseMs = Math.max(
-      10,
-      Math.floor((durationMs - pauseTotal) / full.length)
-    );
-
+    const baseMs = Math.max(10, Math.floor((durationMs - pauseTotal) / full.length));
     let i = 0;
 
     const tick = () => {
@@ -341,6 +403,8 @@ function wait(ms) {
 }
 
 if (landingEl) {
+  startPreloadMedia();
+
   (async () => {
     await typeWriter(landingTitleEl, 900);
     await wait(120);
